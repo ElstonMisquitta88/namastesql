@@ -1,0 +1,67 @@
+Note: please do not use any functions which are not taught in the class. you need to solve the questions only with the concepts that have been discussed so far.
+
+1- write a query to get region wise count of return orders
+SELECT 
+		A.region,
+		Count(1) OrderCount
+FROM ORDERS A INNER JOIN  RETURNS B ON A.ORDER_ID=B.ORDER_ID
+GROUP BY A.region
+
+
+2- write a query to get category wise sales of orders that were not returned
+SELECT 
+		A.category,
+		SUM(SALES) [sales of orders]
+FROM ORDERS A LEFT JOIN  RETURNS B ON A.ORDER_ID=B.ORDER_ID
+WHERE B.ORDER_ID IS NULL
+GROUP BY A.category
+
+
+3- write a query to print dep name and average salary of employees in that dep .
+SELECT  
+	B.dep_name,
+	AVG(A.salary)[average salary]
+from employee A INNER JOIN dept B 
+ON A.dept_id=B.dep_id
+GROUP BY B.dep_name
+
+4- write a query to print dep names where none of the emplyees have same salary.
+SELECT dept_id,count(dept_id)
+FROM(
+	SELECT  
+		A.dept_id ,SUM(A.salary) Sumsalary
+	from employee A INNER JOIN dept B 
+	ON A.dept_id=B.dep_id
+	group by A.dept_id,A.salary
+)T group by dept_id HAVING count(dept_id)=1
+
+5- write a query to print sub categories where we have all 3 kinds of returns (others,bad quality,wrong items)
+SELECT 
+		A.sub_category
+FROM ORDERS A INNER JOIN  RETURNS B ON A.ORDER_ID=B.ORDER_ID
+GROUP BY A.sub_category
+having count(distinct b.return_reason)=3
+order by A.sub_category
+
+6- write a query to find cities where not even a single order was returned.
+SELECT 
+		 A.city,COUNT(B.ORDER_ID)
+FROM ORDERS A 
+LEFT JOIN  RETURNS B ON A.ORDER_ID=B.ORDER_ID
+GROUP BY city
+Having COUNT(B.ORDER_ID) =0
+
+7- write a query to find top 3 subcategories by sales of returned orders in east region
+SELECT 
+	TOP 3 A.SUB_CATEGORY
+FROM ORDERS A INNER JOIN RETURNS B ON A.ORDER_ID=B.ORDER_ID
+WHERE A.REGION='EAST'
+GROUP BY A.SUB_CATEGORY
+ORDER BY SUM(A.SALES) DESC
+
+8- write a query to print dep name for which there is no employee
+select A.dep_name from dept A LEft join employee B on A.dep_id=B.dept_id where B.dept_id is null
+
+
+9- write a query to print employees name for dep id is not avaiable in dept table
+select A.emp_name from employee A LEft join dept B on A.dept_id=B.dep_id where B.dep_id is null

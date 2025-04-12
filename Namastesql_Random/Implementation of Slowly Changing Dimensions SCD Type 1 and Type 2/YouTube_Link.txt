@@ -1,0 +1,6 @@
+SCD Type 1 and Type 2 using SQL | Implementation of Slowly Changing Dimensions
+https://www.youtube.com/watch?v=kii_Kukh4po
+
+
+Slowly Changing Dimensions In Data warehousing with iPhone 11 Example | SCD 1/2/3
+https://www.youtube.com/watch?v=ejdIgYPfcV4
